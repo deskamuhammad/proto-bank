@@ -21,13 +21,14 @@ enum ActionTypeEnum {
     DOC_PLACEMENT_STATUS = 6;
 }
 
-message CaseActionType {
-    enum CaseTypeEnum{
-        BALANCE = 0;
-        APPROVAL = 1;
-        PLACEMENT = 2;
-    }
+enum CaseTypeEnum {
+    BALANCE = 0;
+    APPROVAL = 1;
+    PLACEMENT = 2;
+}
 
+
+message CaseActionType {
     enum BalanceEnum {
         waiting_for_invoice = 0;
         invoice_issued_and_waiting_for_payment = 1;
@@ -52,10 +53,12 @@ message CaseActionType {
         rejected = 3;
     }
 
-    CaseTypeEnum case_type = 1;
-    optional BalanceEnum balance_case = 2;
-    optional ApprovalEnum approval_case = 3;
-    optional PlacementEnum placement_case = 4;
+    oneof CaseActionType {
+        BalanceEnum balance_case = 1;
+        ApprovalEnum approval_case = 2;
+        PlacementEnum placement_case = 3;
+    }
+
 }
 
 /*
@@ -94,10 +97,11 @@ message UpdateReadStatusNotificationRequest{
 
 message SendNotificationRequest {
     ActionTypeEnum action_type = 1;
-    CaseActionType case_action_type = 2;
-    string external_id = 3;
-    uint64 amount = 4;
-    string extra_data = 5;
+    CaseTypeEnum case_type = 2;
+    CaseActionType case_action_type = 3;
+    string external_id = 4;
+    uint64 amount = 5;
+    string extra_data = 6;
 }
 
 /*

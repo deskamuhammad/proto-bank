@@ -7,7 +7,7 @@
 package device_token
 
 import (
-	meta "/protobuf/meta"
+	proto "github.com/philipsjp26/proto-bank/api/meta/proto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -257,10 +257,10 @@ type ListDeviceTokenResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Status  int32            `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
-	Message string           `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	Data    []*DeviceToken   `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty"`
-	Meta    *meta.Pagination `protobuf:"bytes,4,opt,name=meta,proto3" json:"meta,omitempty"`
+	Status  int32             `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Message string            `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Data    []*DeviceToken    `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty"`
+	Meta    *proto.Pagination `protobuf:"bytes,4,opt,name=meta,proto3" json:"meta,omitempty"`
 }
 
 func (x *ListDeviceTokenResponse) Reset() {
@@ -316,7 +316,7 @@ func (x *ListDeviceTokenResponse) GetData() []*DeviceToken {
 	return nil
 }
 
-func (x *ListDeviceTokenResponse) GetMeta() *meta.Pagination {
+func (x *ListDeviceTokenResponse) GetMeta() *proto.Pagination {
 	if x != nil {
 		return x.Meta
 	}
@@ -377,9 +377,8 @@ var file_api_notification_proto_device_token_proto_rawDesc = []byte{
 	0x6b, 0x65, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x64, 0x65,
 	0x76, 0x69, 0x63, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x44,
 	0x65, 0x76, 0x69, 0x63, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x42, 0x18, 0x5a, 0x16, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f,
-	0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x65, 0x42, 0x10, 0x5a, 0x0e, 0x2e, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x74,
+	0x6f, 0x6b, 0x65, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -401,7 +400,7 @@ var file_api_notification_proto_device_token_proto_goTypes = []interface{}{
 	(*FindDeviceTokensRequest)(nil),   // 2: device_token.FindDeviceTokensRequest
 	(*CreateDeviceTokenResponse)(nil), // 3: device_token.CreateDeviceTokenResponse
 	(*ListDeviceTokenResponse)(nil),   // 4: device_token.ListDeviceTokenResponse
-	(*meta.Pagination)(nil),           // 5: meta.Pagination
+	(*proto.Pagination)(nil),          // 5: meta.Pagination
 }
 var file_api_notification_proto_device_token_proto_depIdxs = []int32{
 	0, // 0: device_token.CreateDeviceTokenResponse.data:type_name -> device_token.DeviceToken

@@ -1,0 +1,257 @@
+syntax = "proto3";
+
+package invoice;
+
+option go_package = ".";
+
+import "api/sales/proto/meta.proto";
+
+/*
+===========================
+          Messages
+===========================
+*/
+message Item {
+  string balance_type = 1;
+  string start_period = 2;
+  string end_period = 3;
+  int32 quantity = 4;
+  int32 price = 5;
+  int32 discount = 6;
+  int32 total_price = 7;
+  string description = 8;
+}
+
+message Transaction {
+  string id = 1;
+  string status = 2;
+  string invoice_number = 3;
+  string request_number = 4;
+  string channel_name = 5;
+  string payment_type = 6;
+  string transaction_type = 7;
+  string invoice_request_due_date = 8;
+  string invoice_due_date = 9;
+  string cut_off_date = 10;
+  string request_reject_reason = 11;
+  repeated Item item_details = 12;
+  string created_at = 13;
+}
+
+message TransactionDetail {
+  string id = 1;
+  string status = 2;
+  string invoice_number = 3;
+  string request_number = 4;
+  string origin = 5;
+  string source = 6;
+  string channel_name = 7;
+  string channel_code = 8;
+  string payment_type = 9;
+  string transaction_type = 10;
+  string transfer_from = 11;
+  string transfer_to = 12;
+  string invoice_requested_at = 13;
+  string request_approved_at = 14;
+  string invoice_request_due_date = 15;
+  string invoice_due_date = 16;
+  string cut_off_date = 17;
+  string payment_term = 18;
+  string send_invoice_request_to = 19;
+  string send_invoice_to = 20;
+  string cc = 21;
+  string bcc = 22;
+  string bill_to_email = 23;
+  string request_rejected_at = 24;
+  string request_reject_reason = 25;
+  string paid_at = 26;
+  TransactionDocument payment_proof = 27;
+  string payment_due_date = 28;
+  string payment_rejected_at = 29;
+  string payment_reject_reason = 30;
+  string company_name = 31;
+  string project_name = 32;
+  string requester_name = 33;
+  string customer_name = 34;
+  string pic = 35;
+  string phone_number_pic = 36;
+  string integration_type = 37;
+  string work_type = 38;
+  string letter_address = 39;
+  string invoice_shipment = 40;
+  repeated TransactionDocument documents = 41;
+  repeated TransactionDocument invoice_documents = 42;
+  repeated Item item_details = 43;
+  int32 total_payment = 44;
+  string ppn_report = 45;
+  int32 ppn = 46;
+  string signature = 47;
+  string created_at = 48;
+}
+
+message TransactionDocument {
+  string id = 1;
+  string document_type = 3;
+  string document_id = 4;
+  string created_at = 5;
+}
+
+
+/*
+===========================
+    Get All Transaction
+===========================
+*/
+message GetAllTransactionRequest {
+  string source = 1;
+  string transaction_type = 2;
+  string payment_type = 3;
+  string balance_type = 4;
+  string status = 5;
+  string channel_code = 6;
+  string q = 7;
+  Request meta = 8;
+}
+
+message GetAllTransactionResponse {
+  repeated Transaction data = 1;
+  Pagination pagination = 2;
+  BaseResponse meta = 3;
+}
+
+
+/*
+===========================
+  Get Transaction Detail
+===========================
+*/
+message GetTransactionDetailRequest {
+  string id = 1;
+}
+
+message GetTransactionDetailResponse {
+  TransactionDetail data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+    Create Transaction
+===========================
+*/
+message CreateTransactionRequest {
+  string transaction_type = 1;
+  string channel_code = 2;
+  string transfer_from = 3;
+  string transfer_to = 4;
+  repeated Item item_details = 5;
+  string invoice_request_due_date = 6;
+  string payment_term = 7;
+  string send_invoice_to = 8;
+  string cc = 9;
+  string bcc = 10;
+}
+
+message CreateTransactionResponse {
+  TransactionDetail data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+  Create Request Invoice
+===========================
+*/
+message CreateRequestInvoiceRequest {
+  string id = 1;
+  string requester_name = 2;
+  string requested_at = 3;
+  string channel_code = 4;
+  string company_name = 5;
+  string project_name = 6;
+  string pic = 7;
+  string bill_to_email = 8;
+  string phone_number_pic = 9;
+  string invoice_shipment = 10;
+  string integration_type = 11;
+  string letter_address = 12;
+  repeated Item item_details = 13;
+}
+
+message CreateRequestInvoiceResponse {
+  TransactionDetail data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+      Create Invoice
+===========================
+*/
+message CreateInvoiceRequest {
+  string id = 1;
+  string channel_code = 2;
+  string payment_due_date = 3;
+  string payment_term = 4;
+  repeated Item item_details = 5;
+  int32 tax = 6;
+  repeated TransactionDocument supporting_docs = 7;
+  string send_invoice_request_to = 8;
+  string cc = 9;
+  string bcc = 10;
+}
+
+message CreateInvoiceResponse {
+  TransactionDetail data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+    Approve Transaction
+===========================
+*/
+message ApproveTransactionRequest {
+  string id = 1;
+  string invoice_request_due_date = 2;
+}
+
+message ApproveTransactionResponse {
+  TransactionDetail data = 1;
+  BaseResponse meta = 2;
+}
+
+/*
+===========================
+    Reject Transaction
+===========================
+*/
+message RejectTransactionRequest {
+  string id = 1;
+  string request_reject_reason = 2;
+}
+
+message RejectTransactionResponse {
+  TransactionDetail data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+          Service
+===========================
+*/
+service TransactionGatewayService {
+  rpc GetAllTransaction(GetAllTransactionRequest) returns (GetAllTransactionResponse) {}
+  rpc GetTransactionDetail(GetTransactionDetailRequest) returns (GetTransactionDetailResponse) {}
+  rpc CreateTransaction(CreateTransactionRequest) returns (CreateTransactionResponse) {}
+  rpc CreateRequestInvoice(CreateRequestInvoiceRequest) returns (CreateRequestInvoiceResponse) {}
+  rpc CreateInvoice(CreateInvoiceRequest) returns (CreateInvoiceResponse) {}
+  rpc ApproveTransaction(ApproveTransactionRequest) returns (ApproveTransactionResponse) {}
+  rpc RejectTransaction(RejectTransactionRequest) returns (RejectTransactionResponse) {}
+}

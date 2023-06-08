@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package telegram;
+
+option go_package = ".";
+
+import "api/telegram/proto/meta.proto";
+
+/*
+===================
+Request Messages
+===================
+*/
+message SendMessageRequest {
+  int64 chat_id = 1;
+  string api_token = 2;
+  string message = 3;
+}
+
+message GetUpdatesRequest {
+  string api_token = 1;
+}
+
+/*
+===================
+Response Messages
+===================
+*/
+message TelegramResponse {
+  BaseResponse response = 1;
+  string message = 2;
+}
+
+/*
+===================
+Service
+===================
+*/
+service TelegramService {
+  rpc SendMessage(SendMessageRequest) returns (TelegramResponse);
+  rpc GetUpdates(GetUpdatesRequest) returns (TelegramResponse);
+}

@@ -2,29 +2,78 @@ syntax = "proto3";
 
 package notification;
 
-option go_package = "/protobuf/notification";
+option go_package = ".";
 
 import "api/meta/proto/meta.proto";
+
+/*
+=================
+Enum
+=================
+*/
+enum ActionTypeEnum {
+    TOP_UP_BALANCE = 0;
+    TRANSFER_BALANCE = 1;
+    RECEIVED_BALANCE = 2;
+    LOW_BALANCE_REMINDER = 3;
+    APPROVAL_APP_MANAGEMENT = 4;
+    APPROVAL_CUSTOMIZE_APP_PAGE = 5;
+    DOC_PLACEMENT_STATUS = 6;
+}
+
+message CaseActionType {
+    enum CaseTypeEnum{
+        BALANCE = 0;
+        APPROVAL = 1;
+        PLACEMENT = 2;
+    }
+
+    enum BalanceEnum {
+        waiting_for_invoice = 0;
+        invoice_issued_and_waiting_for_payment = 1;
+        waiting_for_verification = 2;
+        balance_rejected = 3;
+        approved = 4;
+        overdue = 5;
+        received = 6;
+        running_low_balance_reminder = 7;
+    }
+
+    enum ApprovalEnum {
+        submit_approval_for_changes = 0;
+        changes_approved = 1;
+        changes_rejected = 2;
+    }
+
+    enum PlacementEnum {
+        submitted = 0;
+        completed = 1;
+        revoked = 2;
+        rejected = 3;
+    }
+
+    CaseTypeEnum case_type = 1;
+    optional BalanceEnum balance_case = 2;
+    optional ApprovalEnum approval_case = 3;
+    optional PlacementEnum placement_case = 4;
+}
 
 /*
 =================
 Data
 =================
 */
-message NotificationData {
-    string title = 1;
-    string content = 2;
-    string link_type = 3;
-    string link = 4;
-}
-
 message Notification {
     uint32 id = 1;
-    string status = 2;
-    string actor = 3;
-    NotificationData data = 4;
-    string created_at = 5;
-    string read_at = 6;
+    string title = 2;
+    string message = 3;
+    string link_type = 4;
+    string link = 5;
+    string external_id = 6;
+    uint64 amount = 7;
+    string created_at = 8;
+    bool is_read = 9;
+    string read_at = 10;
 }
 
 
@@ -34,21 +83,21 @@ Parameter Request
 =================
 */
 message GetNotificationsRequest {
-    string status = 1;
+    optional bool is_read = 1;
     uint32 page = 2;
     uint32 limit = 3;
 }
 
 message UpdateReadStatusNotificationRequest{
     uint32 id = 1;
-    string string = 2;
 }
 
 message SendNotificationRequest {
-    string type = 1;
-    string case = 2;
-    string message = 3;
-    string amount = 4;
+    ActionTypeEnum action_type = 1;
+    CaseActionType case_action_type = 2;
+    string external_id = 3;
+    uint64 amount = 4;
+    string extra_data = 5;
 }
 
 /*
@@ -58,12 +107,12 @@ Response
 */
 message ListNotificationResponse {
     meta.Pagination pagination = 1;
-    repeated Notification notifications = 2;
+    repeated Notification data = 2;
 }
 
 
 service NotificationService {
     rpc GetNotifications(GetNotificationsRequest) returns(ListNotificationResponse);
-    rpc UpdateReadStatusNotification(UpdateReadStatusNotificationRequest) returns(ListNotificationResponse);
-    rpc SendNotification(SendNotificationRequest) returns(meta.BaseResponse);
+    rpc UpdateReadStatusNotification(UpdateReadStatusNotificationRequest) returns(meta.BaseResponseV2);
+    rpc SendNotification(SendNotificationRequest) returns(meta.BaseResponseV2);
 }

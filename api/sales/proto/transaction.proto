@@ -1,0 +1,380 @@
+syntax = "proto3";
+
+package invoice;
+
+option go_package = ".";
+
+import "api/sales/proto/meta.proto";
+
+/*
+===========================
+          Enums
+===========================
+*/
+enum SourceEnum {
+  SOURCE_UNSPECIFIED = 0;
+  SOURCE_INTERNAL = 1;
+  SOURCE_EXTERNAL = 2;
+}
+
+enum TransactionTypeEnum {
+  TRANSACTION_TYPE_UNSPECIFIED = 0;
+  TRANSACTION_TYPE_TOPUP = 1;
+  TRANSACTION_TYPE_TRANSFER = 2;
+}
+
+enum PaymentTypeEnum {
+  PAYMENT_TYPE_UNSPECIFIED = 0;
+  PAYMENT_TYPE_PREPAID = 1;
+  PAYMENT_TYPE_POSTPAID = 2;
+}
+
+enum StatusEnum {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_WAITING_APPROVAL = 1;
+  STATUS_SUCCESS = 2;
+  STATUS_REJECT_REQUEST = 3;
+  STATUS_PENDING = 4;
+  STATUS_EXPIRED = 5;
+  STATUS_WAITING_INVOICE = 6;
+  STATUS_WAITING_SIGNER = 7;
+  STATUS_PROCESSING_DOCUMENT = 8;
+  STATUS_UNPAID = 9;
+  STATUS_INVOICE_OVERDUE = 10;
+  STATUS_WAITING_VERIFICATION = 11;
+  STATUS_PAID = 12;
+  STATUS_REJECT_PAYMENT = 13;
+}
+
+enum BalanceTypeEnum {
+  BALANCE_TYPE_UNSPECIFIED = 0;
+  BALANCE_TYPE_ESIGN = 1;
+  BALANCE_TYPE_OTP = 2;
+  BALANCE_TYPE_EMATERAI = 3;
+  BALANCE_TYPE_REGISTRATION = 4;
+  BALANCE_TYPE_EMPLOYEE_ACCOUNT = 5;
+  BALANCE_TYPE_BLAST = 6;
+  BALANCE_TYPE_OCR = 7;
+  BALANCE_TYPE_FACE_RECOGNITION = 8;
+  BALANCE_TYPE_DEMOGRAPHY = 9;
+  BALANCE_TYPE_ID_VERIFICATION = 10;
+  BALANCE_TYPE_ESEAL = 11;
+  BALANCE_TYPE_LIVENESS = 12;
+}
+
+
+/*
+===========================
+        Entities
+===========================
+*/
+message TransactionEntity {
+  string id = 1;
+  string channel_code = 2;
+  string status = 3;
+  string transfer_from = 4;
+  string transfer_to = 5;
+  string created_by = 6;
+  string transaction_type = 7;
+  string origin = 8;
+  string destination = 9;
+  string source = 10;
+  string customer_id = 11;
+  string request_number = 12;
+  string payment_id = 13;
+  string invoice_number = 14;
+  bool is_active = 15;
+  string created_at = 16;
+  string updated_at = 17;
+  string deleted_at = 18;
+}
+
+message CustomerRequestEntity {
+  string request_number = 1;
+  string requested_at = 2;
+  string request_approved_at = 3;
+  string request_rejected_at = 4;
+  string request_reject_reason = 5;
+  bool is_active = 6;
+  string created_at = 7;
+  string updated_at = 8;
+  string deleted_at = 9;
+}
+
+message CustomerEntity {
+  string id = 1;
+  string cc = 2;
+  string bcc = 3;
+  string send_invoice_to = 4;
+  string send_invoice_request_to = 5;
+  string requester_name = 6;
+  string company_name = 7;
+  string project_name = 8;
+  string pic = 9;
+  string bill_to_email = 10;
+  string phone_number_pic = 11;
+  string letter_address = 12;
+  bool is_active = 13;
+  string created_at = 14;
+  string updated_at = 15;
+  string deleted_at = 16;
+}
+
+message PaymentEntity {
+  string id = 1;
+  string payment_due_date = 2;
+  string payment_term = 3;
+  string payment_rejected_at = 4;
+  string payment_reject_reason = 5;
+  string payment_type = 6;
+  string paid_at = 7;
+  bool is_active = 8;
+  string created_at = 9;
+  string updated_at = 10;
+  string deleted_at = 11;
+}
+
+message InvoiceEntity {
+  string invoice_number = 1;
+  string invoice_due_date = 2;
+  string invoice_request_due_date = 3;
+  string invoice_requested_at = 4;
+  string invoice_shipment = 5;
+  string integration_type = 6;
+  string cut_off_date = 7;
+  string work_type = 8;
+  int32 ppn = 9;
+  string ppn_report = 10;
+  bool is_active = 11;
+  string created_at = 12;
+  string updated_at = 13;
+  string deleted_at = 14;
+}
+
+message TransactionDetailEntity {
+  string id = 1;
+  int32 price = 2;
+  int32 quantity = 3;
+  int32 discount = 4;
+  int32 tax = 5;
+  int32 total_amount = 6;
+  string transaction_id = 7;
+  string balance_type_code = 8;
+  string description = 9;
+  string start_period = 10;
+  string end_period = 11;
+  bool is_active = 12;
+  string created_at = 13;
+  string updated_at = 14;
+  string deleted_at = 15;
+}
+
+
+/*
+===========================
+        Transactions
+===========================
+*/
+message TransactionsRequest {
+  TransactionEntity filter = 1;
+  Request meta = 2;
+}
+
+message TransactionRequest {
+  string id = 1;
+}
+
+message TransactionsResponse {
+  repeated TransactionEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+message TransactionResponse {
+  TransactionEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+      Customer Request
+===========================
+*/
+message CustomerRequestsRequest {
+  CustomerRequestEntity filter = 1;
+  Request meta = 2;
+}
+
+message CustomerRequestRequest {
+  string request_number = 1;
+}
+
+message CustomerRequestsResponse {
+  repeated CustomerRequestEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+message CustomerRequestResponse {
+  CustomerRequestEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+          Customer
+===========================
+*/
+message CustomersRequest {
+  CustomerEntity filter = 1;
+  Request meta = 2;
+}
+
+message CustomerRequest {
+  string id = 1;
+}
+
+message CustomersResponse {
+  repeated CustomerEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+message CustomerResponse {
+  CustomerEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+          Payment
+===========================
+*/
+message PaymentsRequest {
+  PaymentEntity filter = 1;
+  Request meta = 2;
+}
+
+message PaymentRequest {
+  string id = 1;
+}
+
+message PaymentsResponse {
+  repeated PaymentEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+message PaymentResponse {
+  PaymentEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+          Invoice
+===========================
+*/
+message InvoicesRequest {
+  InvoiceEntity filter = 1;
+  Request meta = 2;
+}
+
+message InvoiceRequest {
+  string invoice_number = 1;
+}
+
+message InvoicesResponse {
+  repeated InvoiceEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+message InvoiceResponse {
+  InvoiceEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+    Transaction Detail
+===========================
+*/
+message TransactionDetailsRequest {
+  TransactionDetailEntity filter = 1;
+  Request meta = 2;
+}
+
+message TransactionDetailRequest {
+  string id = 1;
+}
+
+message TransactionDetailsResponse {
+  repeated TransactionDetailEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+message TransactionDetailResponse {
+  TransactionDetailEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+
+/*
+===========================
+          Service
+===========================
+*/
+// Transaction service
+service TransactionService {
+  rpc GetAll(TransactionsRequest) returns (TransactionsResponse);
+  rpc Get(TransactionRequest) returns (TransactionResponse);
+  rpc Create(TransactionEntity) returns (TransactionResponse);
+  rpc Update(TransactionEntity) returns (TransactionResponse);
+  rpc Delete(TransactionRequest) returns (TransactionResponse);
+}
+
+// Customer Request service
+service CustomerRequestService {
+  rpc GetAll(CustomerRequestsRequest) returns (CustomerRequestsResponse);
+  rpc Get(CustomerRequestRequest) returns (CustomerRequestResponse);
+  rpc Create(CustomerRequestEntity) returns (CustomerRequestResponse);
+  rpc Update(CustomerRequestEntity) returns (CustomerRequestResponse);
+  rpc Delete(CustomerRequestRequest) returns (CustomerRequestResponse);
+}
+
+// Customer service
+service CustomerService {
+  rpc GetAll(CustomersRequest) returns (CustomersResponse);
+  rpc Get(CustomerRequest) returns (CustomerResponse);
+  rpc Create(CustomerEntity) returns (CustomerResponse);
+  rpc Update(CustomerEntity) returns (CustomerResponse);
+  rpc Delete(CustomerRequest) returns (CustomerResponse);
+}
+
+// Payment service
+service PaymentService {
+  rpc GetAll(PaymentsRequest) returns (PaymentsResponse);
+  rpc Get(PaymentRequest) returns (PaymentResponse);
+  rpc Create(PaymentEntity) returns (PaymentResponse);
+  rpc Update(PaymentEntity) returns (PaymentResponse);
+  rpc Delete(PaymentRequest) returns (PaymentResponse);
+}
+
+// Invoice service
+service InvoiceService {
+  rpc GetAll(InvoicesRequest) returns (InvoicesResponse);
+  rpc Get(InvoiceRequest) returns (InvoiceResponse);
+  rpc Create(InvoiceEntity) returns (InvoiceResponse);
+  rpc Update(InvoiceEntity) returns (InvoiceResponse);
+  rpc Delete(InvoiceRequest) returns (InvoiceResponse);
+}
+
+// Transaction Detail service
+service TransactionDetailService {
+  rpc GetAll(TransactionDetailsRequest) returns (TransactionDetailsResponse);
+  rpc Get(TransactionDetailRequest) returns (TransactionDetailResponse);
+  rpc Create(TransactionDetailEntity) returns (TransactionDetailResponse);
+  rpc Update(TransactionDetailEntity) returns (TransactionDetailResponse);
+  rpc Delete(TransactionDetailRequest) returns (TransactionDetailResponse);
+}

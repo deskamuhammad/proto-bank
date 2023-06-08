@@ -7,7 +7,7 @@
 package notification
 
 import (
-	meta "/protobuf/meta"
+	proto "github.com/philipsjp26/proto-bank/api/meta/proto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -382,8 +382,8 @@ type ListNotificationResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Pagination    *meta.Pagination `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
-	Notifications []*Notification  `protobuf:"bytes,2,rep,name=notifications,proto3" json:"notifications,omitempty"`
+	Pagination    *proto.Pagination `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Notifications []*Notification   `protobuf:"bytes,2,rep,name=notifications,proto3" json:"notifications,omitempty"`
 }
 
 func (x *ListNotificationResponse) Reset() {
@@ -418,7 +418,7 @@ func (*ListNotificationResponse) Descriptor() ([]byte, []int) {
 	return file_api_notification_proto_notification_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *ListNotificationResponse) GetPagination() *meta.Pagination {
+func (x *ListNotificationResponse) GetPagination() *proto.Pagination {
 	if x != nil {
 		return x.Pagination
 	}
@@ -506,9 +506,9 @@ var file_api_notification_proto_notification_proto_rawDesc = []byte{
 	0x12, 0x25, 0x2e, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e,
 	0x53, 0x65, 0x6e, 0x64, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x6d, 0x65, 0x74, 0x61, 0x2e, 0x42,
-	0x61, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x18, 0x5a, 0x16, 0x2f,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x10, 0x5a, 0x0e, 0x2e,
+	0x2f, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -531,8 +531,8 @@ var file_api_notification_proto_notification_proto_goTypes = []interface{}{
 	(*UpdateReadStatusNotificationRequest)(nil), // 3: notification.UpdateReadStatusNotificationRequest
 	(*SendNotificationRequest)(nil),             // 4: notification.SendNotificationRequest
 	(*ListNotificationResponse)(nil),            // 5: notification.ListNotificationResponse
-	(*meta.Pagination)(nil),                     // 6: meta.Pagination
-	(*meta.BaseResponse)(nil),                   // 7: meta.BaseResponse
+	(*proto.Pagination)(nil),                    // 6: meta.Pagination
+	(*proto.BaseResponse)(nil),                  // 7: meta.BaseResponse
 }
 var file_api_notification_proto_notification_proto_depIdxs = []int32{
 	0, // 0: notification.Notification.data:type_name -> notification.NotificationData

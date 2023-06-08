@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: api/notification/proto/device_token.proto
 
-package device_token
+package __
 
 import (
 	context "context"
@@ -22,8 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DeviceTokenServiceClient interface {
-	CreateDeviceToken(ctx context.Context, in *CreateDeviceTokenRequest, opts ...grpc.CallOption) (*DeviceToken, error)
-	FindDeviceToken(ctx context.Context, in *FindDeviceTokensRequest, opts ...grpc.CallOption) (*ListDeviceTokenResponse, error)
+	CreateDeviceToken(ctx context.Context, in *CreateDeviceTokenRequest, opts ...grpc.CallOption) (*BaseResponseV2, error)
 }
 
 type deviceTokenServiceClient struct {
@@ -34,18 +33,9 @@ func NewDeviceTokenServiceClient(cc grpc.ClientConnInterface) DeviceTokenService
 	return &deviceTokenServiceClient{cc}
 }
 
-func (c *deviceTokenServiceClient) CreateDeviceToken(ctx context.Context, in *CreateDeviceTokenRequest, opts ...grpc.CallOption) (*DeviceToken, error) {
-	out := new(DeviceToken)
+func (c *deviceTokenServiceClient) CreateDeviceToken(ctx context.Context, in *CreateDeviceTokenRequest, opts ...grpc.CallOption) (*BaseResponseV2, error) {
+	out := new(BaseResponseV2)
 	err := c.cc.Invoke(ctx, "/device_token.DeviceTokenService/CreateDeviceToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *deviceTokenServiceClient) FindDeviceToken(ctx context.Context, in *FindDeviceTokensRequest, opts ...grpc.CallOption) (*ListDeviceTokenResponse, error) {
-	out := new(ListDeviceTokenResponse)
-	err := c.cc.Invoke(ctx, "/device_token.DeviceTokenService/FindDeviceToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,8 +46,7 @@ func (c *deviceTokenServiceClient) FindDeviceToken(ctx context.Context, in *Find
 // All implementations must embed UnimplementedDeviceTokenServiceServer
 // for forward compatibility
 type DeviceTokenServiceServer interface {
-	CreateDeviceToken(context.Context, *CreateDeviceTokenRequest) (*DeviceToken, error)
-	FindDeviceToken(context.Context, *FindDeviceTokensRequest) (*ListDeviceTokenResponse, error)
+	CreateDeviceToken(context.Context, *CreateDeviceTokenRequest) (*BaseResponseV2, error)
 	mustEmbedUnimplementedDeviceTokenServiceServer()
 }
 
@@ -65,11 +54,8 @@ type DeviceTokenServiceServer interface {
 type UnimplementedDeviceTokenServiceServer struct {
 }
 
-func (UnimplementedDeviceTokenServiceServer) CreateDeviceToken(context.Context, *CreateDeviceTokenRequest) (*DeviceToken, error) {
+func (UnimplementedDeviceTokenServiceServer) CreateDeviceToken(context.Context, *CreateDeviceTokenRequest) (*BaseResponseV2, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateDeviceToken not implemented")
-}
-func (UnimplementedDeviceTokenServiceServer) FindDeviceToken(context.Context, *FindDeviceTokensRequest) (*ListDeviceTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindDeviceToken not implemented")
 }
 func (UnimplementedDeviceTokenServiceServer) mustEmbedUnimplementedDeviceTokenServiceServer() {}
 
@@ -102,24 +88,6 @@ func _DeviceTokenService_CreateDeviceToken_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DeviceTokenService_FindDeviceToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindDeviceTokensRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DeviceTokenServiceServer).FindDeviceToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/device_token.DeviceTokenService/FindDeviceToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DeviceTokenServiceServer).FindDeviceToken(ctx, req.(*FindDeviceTokensRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // DeviceTokenService_ServiceDesc is the grpc.ServiceDesc for DeviceTokenService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,10 +98,6 @@ var DeviceTokenService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateDeviceToken",
 			Handler:    _DeviceTokenService_CreateDeviceToken_Handler,
-		},
-		{
-			MethodName: "FindDeviceToken",
-			Handler:    _DeviceTokenService_FindDeviceToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -2,13 +2,8 @@ syntax = "proto3";
 
 package meta;
 
-option go_package = "/protobuf/meta";
+option go_package = ".";
 
-/*
-=================
-    Response
-=================
-*/
 message BaseResponse {
     int32 code = 1;
     string status = 2;
@@ -28,6 +23,10 @@ message Request {
     string end_date = 4;
 }
 
+message BaseResponseV2 {
+    int32 code = 1;
+    string message = 2;
+}
 
 message Empty {}
 

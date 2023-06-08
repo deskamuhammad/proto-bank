@@ -38,20 +38,21 @@ message ActivityLogParameterRequest {
 
 message ActivityLogResponse {
     string id = 1;
-    string privy_id = 2;
-    string ip = 3;
-    string activity = 4;
-    string browser = 5;
-    int32 application_id = 6;
-    string url = 7;
-    string request = 8;
-    string response = 9;
-    string headers = 10;
-    string action_method = 11;
-    bool can_show_detail = 12;
-    string before_request = 13;
-    string created_at = 14;
-    string updated_at = 15;
+    string name = 2;
+    string privy_id = 3;
+    string ip = 4;
+    string activity = 5;
+    string browser = 6;
+    int32 application_id = 7;
+    string url = 8;
+    string request = 9;
+    string response = 10;
+    string headers = 11;
+    string action_method = 12;
+    bool can_show_detail = 13;
+    string before_request = 14;
+    string created_at = 15;
+    string updated_at = 16;
 }
 
 message ActivityLogsResponse {
@@ -83,6 +84,7 @@ message FindActivityLogRequest {
 }
 
 message CreateActivityLogRequest {
+    string name = 1;
     string privy_id = 2;
     string ip = 3;
     string activity = 4;

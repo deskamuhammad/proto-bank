@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package status;
 
-option go_package = "/status";
+option go_package = ".";
 
 /*
 =================

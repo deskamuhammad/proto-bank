@@ -12,44 +12,49 @@ Enum
 =================
 */
 enum ActionTypeEnum {
-    TOP_UP_BALANCE = 0;
-    TRANSFER_BALANCE = 1;
-    RECEIVED_BALANCE = 2;
-    LOW_BALANCE_REMINDER = 3;
-    APPROVAL_APP_MANAGEMENT = 4;
-    APPROVAL_CUSTOMIZE_APP_PAGE = 5;
-    DOC_PLACEMENT_STATUS = 6;
+    UNKNOWN_ACTION_TYPE = 0;
+    TOP_UP_BALANCE = 1;
+    TRANSFER_BALANCE = 2;
+    RECEIVED_BALANCE = 3;
+    LOW_BALANCE_REMINDER = 4;
+    APPROVAL_APP_MANAGEMENT = 5;
+    APPROVAL_CUSTOMIZE_APP_PAGE = 6;
+    DOC_PLACEMENT_STATUS = 7;
 }
 
 message CaseActionType {
     enum CaseTypeEnum{
-        BALANCE = 0;
-        APPROVAL = 1;
-        PLACEMENT = 2;
+        UNKNOWN_CASE_TYPE = 0;
+        BALANCE = 1;
+        APPROVAL = 2;
+        PLACEMENT = 3;
     }
 
     enum BalanceEnum {
-        waiting_for_invoice = 0;
-        invoice_issued_and_waiting_for_payment = 1;
-        waiting_for_verification = 2;
-        balance_rejected = 3;
-        approved = 4;
-        overdue = 5;
-        received = 6;
-        running_low_balance_reminder = 7;
+        unknown_balance = 0;
+        waiting_for_invoice = 1;
+        invoice_issued_and_waiting_for_payment = 2;
+        waiting_for_verification = 3;
+        balance_rejected = 4;
+        approved = 5;
+        overdue = 6;
+        received = 7;
+        running_low_balance_reminder = 8;
     }
 
     enum ApprovalEnum {
-        submit_approval_for_changes = 0;
-        changes_approved = 1;
-        changes_rejected = 2;
+        unknown_approval = 0;
+        submit_approval_for_changes = 1;
+        changes_approved = 2;
+        changes_rejected = 3;
     }
 
     enum PlacementEnum {
-        submitted = 0;
-        completed = 1;
-        revoked = 2;
-        rejected = 3;
+        unknown_placement = 0;
+        submitted = 1;
+        completed = 2;
+        revoked = 3;
+        rejected = 4;
     }
 
     CaseTypeEnum case_type = 1;

@@ -28,6 +28,7 @@ type DocumentClient interface {
 	DeleteDocumentByReffNumber(ctx context.Context, in *DeleteDocumentRequest, opts ...grpc.CallOption) (*DeleteDocumentResponse, error)
 	ListDocument(ctx context.Context, in *DocumentParameterRequest, opts ...grpc.CallOption) (*ListServiceDocumentResponse, error)
 	RevokeDocument(ctx context.Context, in *RevokeDocumentRequest, opts ...grpc.CallOption) (*GetDocumentResponse, error)
+	UploadFileService(ctx context.Context, opts ...grpc.CallOption) (Document_UploadFileServiceClient, error)
 }
 
 type documentClient struct {
@@ -117,6 +118,40 @@ func (c *documentClient) RevokeDocument(ctx context.Context, in *RevokeDocumentR
 	return out, nil
 }
 
+func (c *documentClient) UploadFileService(ctx context.Context, opts ...grpc.CallOption) (Document_UploadFileServiceClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Document_ServiceDesc.Streams[1], "/Document/UploadFileService", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &documentUploadFileServiceClient{stream}
+	return x, nil
+}
+
+type Document_UploadFileServiceClient interface {
+	Send(*UploadFileRequest) error
+	CloseAndRecv() (*UploadFileResponse, error)
+	grpc.ClientStream
+}
+
+type documentUploadFileServiceClient struct {
+	grpc.ClientStream
+}
+
+func (x *documentUploadFileServiceClient) Send(m *UploadFileRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *documentUploadFileServiceClient) CloseAndRecv() (*UploadFileResponse, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(UploadFileResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // DocumentServer is the server API for Document service.
 // All implementations must embed UnimplementedDocumentServer
 // for forward compatibility
@@ -127,6 +162,7 @@ type DocumentServer interface {
 	DeleteDocumentByReffNumber(context.Context, *DeleteDocumentRequest) (*DeleteDocumentResponse, error)
 	ListDocument(context.Context, *DocumentParameterRequest) (*ListServiceDocumentResponse, error)
 	RevokeDocument(context.Context, *RevokeDocumentRequest) (*GetDocumentResponse, error)
+	UploadFileService(Document_UploadFileServiceServer) error
 	mustEmbedUnimplementedDocumentServer()
 }
 
@@ -151,6 +187,9 @@ func (UnimplementedDocumentServer) ListDocument(context.Context, *DocumentParame
 }
 func (UnimplementedDocumentServer) RevokeDocument(context.Context, *RevokeDocumentRequest) (*GetDocumentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeDocument not implemented")
+}
+func (UnimplementedDocumentServer) UploadFileService(Document_UploadFileServiceServer) error {
+	return status.Errorf(codes.Unimplemented, "method UploadFileService not implemented")
 }
 func (UnimplementedDocumentServer) mustEmbedUnimplementedDocumentServer() {}
 
@@ -281,6 +320,32 @@ func _Document_RevokeDocument_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Document_UploadFileService_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(DocumentServer).UploadFileService(&documentUploadFileServiceServer{stream})
+}
+
+type Document_UploadFileServiceServer interface {
+	SendAndClose(*UploadFileResponse) error
+	Recv() (*UploadFileRequest, error)
+	grpc.ServerStream
+}
+
+type documentUploadFileServiceServer struct {
+	grpc.ServerStream
+}
+
+func (x *documentUploadFileServiceServer) SendAndClose(m *UploadFileResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *documentUploadFileServiceServer) Recv() (*UploadFileRequest, error) {
+	m := new(UploadFileRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // Document_ServiceDesc is the grpc.ServiceDesc for Document service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -313,6 +378,11 @@ var Document_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "StoreDocument",
 			Handler:       _Document_StoreDocument_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "UploadFileService",
+			Handler:       _Document_UploadFileService_Handler,
 			ClientStreams: true,
 		},
 	},

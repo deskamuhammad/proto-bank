@@ -1,7 +1,7 @@
 syntax = "proto3";
 package activitypb;
 
-option go_package = "/protobuf/activitypb";
+option go_package = ".";
 
 // import "google/protobuf/struct.proto";
 
@@ -28,6 +28,7 @@ message ActivityLogParameterRequest {
     string order_method = 4;
     string date_start = 5;
     string date_end = 6;
+    optional string search = 7;
   }
 
   /*
@@ -43,7 +44,7 @@ message ActivityLogResponse {
     string ip = 4;
     string activity = 5;
     string browser = 6;
-    int32 application_id = 7;
+    string application_code = 7;
     string url = 8;
     string request = 9;
     string response = 10;
@@ -55,10 +56,18 @@ message ActivityLogResponse {
     string updated_at = 16;
 }
 
+message ActivityLogListResponse {
+    string created_at = 1;
+    string privy_id = 2;
+    string ip = 3;
+    string browser = 4;
+    string activity = 5;
+}
+
 message ActivityLogsResponse {
     int32 code = 1;
     string message = 2;
-    repeated ActivityLogResponse data = 3;
+    repeated ActivityLogListResponse data = 3;
     ActivityMeta meta = 4;
 }
 
@@ -66,7 +75,6 @@ message ActivityLog {
     int32 code = 1;
     string message = 2;
     ActivityLogResponse data = 3;
-    ActivityMeta meta = 4;
 }
 
 message StatusResponse {
@@ -89,7 +97,7 @@ message CreateActivityLogRequest {
     string ip = 3;
     string activity = 4;
     string browser = 5;
-    int32 application_id = 6;
+    string application_code = 6;
     string url = 7;
     string request = 8;
     string response = 9;

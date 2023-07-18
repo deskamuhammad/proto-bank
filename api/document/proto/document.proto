@@ -28,6 +28,9 @@ message DocumentParameterRequest {
     string date_start = 5;
     string date_end = 6;
     string status = 7;
+    optional string channel = 8;
+    optional string docflow = 9;
+    optional string search = 10;
 }
 
 /*
@@ -57,6 +60,7 @@ message GetDocumentResponse {
     string doc_flow = 7;
     string doc_owner = 8;
     string sign_type = 9;
+    string channel_code = 10;
 }
 
 message UploadDocResponse {        
@@ -67,6 +71,7 @@ message UploadDocResponse {
     string doc_category = 5;
     string doc_flow = 6;    
     optional int32 document_id = 7;
+    string channel_code = 8;
 }
 
 message DeleteDocumentResponse {    
@@ -79,6 +84,7 @@ message ListDocument {
     string created_at = 3;
     string title = 4;
     string status = 5;
+    string channel_code = 6;
 }
 
 message ListServiceDocumentResponse {
@@ -99,6 +105,7 @@ message UpdateDocumentRequest {
     optional string token = 4;
     optional string status = 5;
     optional bytes signed_document = 6;
+    optional string channel_code = 7;
 }
 
 message GetDocumentRequest {
@@ -114,7 +121,7 @@ message UploadDocRequest{
     int32 doc_flow = 5;
     string doc_category = 6;    
     string title = 7;
-    string channel_code = 8; 
+    string channel_code = 8;
 }
 
 message DeleteDocumentRequest {

@@ -1399,3 +1399,233 @@ var TransactionDetailService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "api/sales/proto/transaction.proto",
 }
+
+// BalanceTypeServiceClient is the client API for BalanceTypeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type BalanceTypeServiceClient interface {
+	GetAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*BalanceTypesResponse, error)
+	Get(ctx context.Context, in *BalanceTypeRequest, opts ...grpc.CallOption) (*BalanceTypeResponse, error)
+	Create(ctx context.Context, in *BalanceTypeEntity, opts ...grpc.CallOption) (*BalanceTypeResponse, error)
+	Update(ctx context.Context, in *BalanceTypeEntity, opts ...grpc.CallOption) (*BalanceTypeResponse, error)
+	Delete(ctx context.Context, in *BalanceTypeRequest, opts ...grpc.CallOption) (*BalanceTypeResponse, error)
+}
+
+type balanceTypeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewBalanceTypeServiceClient(cc grpc.ClientConnInterface) BalanceTypeServiceClient {
+	return &balanceTypeServiceClient{cc}
+}
+
+func (c *balanceTypeServiceClient) GetAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*BalanceTypesResponse, error) {
+	out := new(BalanceTypesResponse)
+	err := c.cc.Invoke(ctx, "/invoice.BalanceTypeService/GetAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *balanceTypeServiceClient) Get(ctx context.Context, in *BalanceTypeRequest, opts ...grpc.CallOption) (*BalanceTypeResponse, error) {
+	out := new(BalanceTypeResponse)
+	err := c.cc.Invoke(ctx, "/invoice.BalanceTypeService/Get", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *balanceTypeServiceClient) Create(ctx context.Context, in *BalanceTypeEntity, opts ...grpc.CallOption) (*BalanceTypeResponse, error) {
+	out := new(BalanceTypeResponse)
+	err := c.cc.Invoke(ctx, "/invoice.BalanceTypeService/Create", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *balanceTypeServiceClient) Update(ctx context.Context, in *BalanceTypeEntity, opts ...grpc.CallOption) (*BalanceTypeResponse, error) {
+	out := new(BalanceTypeResponse)
+	err := c.cc.Invoke(ctx, "/invoice.BalanceTypeService/Update", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *balanceTypeServiceClient) Delete(ctx context.Context, in *BalanceTypeRequest, opts ...grpc.CallOption) (*BalanceTypeResponse, error) {
+	out := new(BalanceTypeResponse)
+	err := c.cc.Invoke(ctx, "/invoice.BalanceTypeService/Delete", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// BalanceTypeServiceServer is the server API for BalanceTypeService service.
+// All implementations must embed UnimplementedBalanceTypeServiceServer
+// for forward compatibility
+type BalanceTypeServiceServer interface {
+	GetAll(context.Context, *Empty) (*BalanceTypesResponse, error)
+	Get(context.Context, *BalanceTypeRequest) (*BalanceTypeResponse, error)
+	Create(context.Context, *BalanceTypeEntity) (*BalanceTypeResponse, error)
+	Update(context.Context, *BalanceTypeEntity) (*BalanceTypeResponse, error)
+	Delete(context.Context, *BalanceTypeRequest) (*BalanceTypeResponse, error)
+	mustEmbedUnimplementedBalanceTypeServiceServer()
+}
+
+// UnimplementedBalanceTypeServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedBalanceTypeServiceServer struct {
+}
+
+func (UnimplementedBalanceTypeServiceServer) GetAll(context.Context, *Empty) (*BalanceTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
+}
+func (UnimplementedBalanceTypeServiceServer) Get(context.Context, *BalanceTypeRequest) (*BalanceTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (UnimplementedBalanceTypeServiceServer) Create(context.Context, *BalanceTypeEntity) (*BalanceTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (UnimplementedBalanceTypeServiceServer) Update(context.Context, *BalanceTypeEntity) (*BalanceTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (UnimplementedBalanceTypeServiceServer) Delete(context.Context, *BalanceTypeRequest) (*BalanceTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedBalanceTypeServiceServer) mustEmbedUnimplementedBalanceTypeServiceServer() {}
+
+// UnsafeBalanceTypeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BalanceTypeServiceServer will
+// result in compilation errors.
+type UnsafeBalanceTypeServiceServer interface {
+	mustEmbedUnimplementedBalanceTypeServiceServer()
+}
+
+func RegisterBalanceTypeServiceServer(s grpc.ServiceRegistrar, srv BalanceTypeServiceServer) {
+	s.RegisterService(&BalanceTypeService_ServiceDesc, srv)
+}
+
+func _BalanceTypeService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BalanceTypeServiceServer).GetAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/invoice.BalanceTypeService/GetAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BalanceTypeServiceServer).GetAll(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BalanceTypeService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BalanceTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BalanceTypeServiceServer).Get(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/invoice.BalanceTypeService/Get",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BalanceTypeServiceServer).Get(ctx, req.(*BalanceTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BalanceTypeService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BalanceTypeEntity)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BalanceTypeServiceServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/invoice.BalanceTypeService/Create",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BalanceTypeServiceServer).Create(ctx, req.(*BalanceTypeEntity))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BalanceTypeService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BalanceTypeEntity)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BalanceTypeServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/invoice.BalanceTypeService/Update",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BalanceTypeServiceServer).Update(ctx, req.(*BalanceTypeEntity))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BalanceTypeService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BalanceTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BalanceTypeServiceServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/invoice.BalanceTypeService/Delete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BalanceTypeServiceServer).Delete(ctx, req.(*BalanceTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// BalanceTypeService_ServiceDesc is the grpc.ServiceDesc for BalanceTypeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var BalanceTypeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "invoice.BalanceTypeService",
+	HandlerType: (*BalanceTypeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetAll",
+			Handler:    _BalanceTypeService_GetAll_Handler,
+		},
+		{
+			MethodName: "Get",
+			Handler:    _BalanceTypeService_Get_Handler,
+		},
+		{
+			MethodName: "Create",
+			Handler:    _BalanceTypeService_Create_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _BalanceTypeService_Update_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _BalanceTypeService_Delete_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "api/sales/proto/transaction.proto",
+}

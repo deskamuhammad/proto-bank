@@ -25,6 +25,9 @@ Parameter Request
 */
 message CreateDeviceTokenRequest {
     string device_token = 1;
+    string privy_id = 2;
+    string enterprise_token = 3;
+    string application_code = 4;
 }
 
 service DeviceTokenService {

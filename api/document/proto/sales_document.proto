@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+option go_package = ".";
+
+/*
+====================
+      Messages
+====================
+*/
+message SupportingDocument {
+  string supporting_document_id = 1;
+  string document_type = 2;
+  string document_file = 3;
+  string instruction = 4;
+  string transaction_id = 5;
+}
+
+message InvoiceDocument {
+  string invoice_document_id = 1;
+  string invoice_request = 2;
+  string unsigned_invoice = 3;
+  string signed_invoice = 4;
+  string payment_proof = 5;
+  string transaction_id = 6;
+}
+
+/*
+====================
+      Requests
+====================
+*/
+message GetInvoiceDocumentRequest {
+  string transaction_id = 1;
+}
+
+message GetInvoiceDocumentResponse {
+  InvoiceDocument invoice_document = 1;
+}
+
+message CreateInvoiceDocumentRequest {
+  string invoice_request = 1;
+  string unsigned_invoice = 2;
+  string signed_invoice = 3;
+  string payment_proof = 4;
+  string transaction_id = 5;
+}
+
+message CreateInvoiceDocumentResponse {
+  InvoiceDocument invoice_document = 1;
+}
+
+message UpdateInvoiceDocumentRequest {
+  string invoice_request = 1;
+  string unsigned_invoice = 2;
+  string signed_invoice = 3;
+  string payment_proof = 4;
+  string transaction_id = 5;
+}
+
+message UpdateInvoiceDocumentResponse {
+  InvoiceDocument invoice_document = 1;
+}
+
+message GetSupportingDocumentRequest {
+  string transaction_id = 1;
+}
+
+message GetSupportingDocumentResponse {
+  repeated SupportingDocument supporting_document = 1;
+}
+
+message CreateSupportingDocumentRequest {
+  string document_type = 1;
+  string document_file = 2;
+  string instruction = 3;
+  string transaction_id = 4;
+}
+
+message CreateSupportingDocumentResponse {
+  SupportingDocument supporting_document = 1;
+}
+
+message UpdateSupportingDocumentRequest {
+  string supporting_document_id = 1;
+  string document_type = 2;
+  string document_file = 3;
+  string instruction = 4;
+  string transaction_id = 5;
+}
+
+message UpdateSupportingDocumentResponse {
+  SupportingDocument supporting_document = 1;
+}
+
+
+/*
+====================
+      Service
+====================
+*/
+service SalesDocumentService {
+  rpc GetInvoiceDocument(GetInvoiceDocumentRequest) returns (GetInvoiceDocumentResponse);
+  rpc GetSupportingDocument(GetSupportingDocumentRequest) returns (GetSupportingDocumentResponse);
+  rpc CreateInvoiceDocument(CreateInvoiceDocumentRequest) returns (CreateInvoiceDocumentResponse);
+  rpc CreateSupportingDocument(CreateSupportingDocumentRequest) returns (CreateSupportingDocumentResponse);
+  rpc UpdateInvoiceDocument(UpdateInvoiceDocumentRequest) returns (UpdateInvoiceDocumentResponse);
+  rpc UpdateSupportingDocument(UpdateSupportingDocumentRequest) returns (UpdateSupportingDocumentResponse);
+}

@@ -73,6 +73,7 @@ message SignRequest {
     repeated SignPositions sign_positions = 3;
     repeated EmeteraiPositions emeterai_positions = 4;
     optional string sign_type = 5;
+    string channel_code = 6;
 }
 
 message Otp {

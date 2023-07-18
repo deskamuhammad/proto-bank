@@ -10,7 +10,7 @@ option go_package = ".";
 ===================
 */
 message BaseResponse {
-  int32 code = 1;
+  int64 code = 1;
   string status = 2;
 }
 
@@ -22,8 +22,9 @@ message Pagination {
 }
 
 message Request {
-  int32 page = 1;
-  int32 limit = 2;
+  int64 page = 1;
+  int64 limit = 2;
   string start_date = 3;
   string end_date = 4;
+  repeated string channel_codes = 5;
 }

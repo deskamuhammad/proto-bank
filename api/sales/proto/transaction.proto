@@ -68,6 +68,8 @@ enum BalanceTypeEnum {
         Entities
 ===========================
 */
+message Empty {}
+
 message TransactionEntity {
   string id = 1;
   string channel_code = 2;
@@ -143,7 +145,7 @@ message InvoiceEntity {
   string integration_type = 6;
   string cut_off_date = 7;
   string work_type = 8;
-  int32 ppn = 9;
+  int64 ppn = 9;
   string ppn_report = 10;
   bool is_active = 11;
   string created_at = 12;
@@ -153,11 +155,11 @@ message InvoiceEntity {
 
 message TransactionDetailEntity {
   string id = 1;
-  int32 price = 2;
-  int32 quantity = 3;
-  int32 discount = 4;
-  int32 tax = 5;
-  int32 total_amount = 6;
+  int64 price = 2;
+  int64 quantity = 3;
+  int64 discount = 4;
+  int64 tax = 5;
+  int64 total_amount = 6;
   string transaction_id = 7;
   string balance_type_code = 8;
   string description = 9;
@@ -169,6 +171,10 @@ message TransactionDetailEntity {
   string deleted_at = 15;
 }
 
+message BalanceTypeEntity {
+  string balance_type_code = 1;
+  string balance_type_name = 2;
+}
 
 /*
 ===========================
@@ -319,6 +325,25 @@ message TransactionDetailResponse {
   BaseResponse meta = 2;
 }
 
+/*
+===========================
+      Balance Type
+===========================
+*/
+message BalanceTypeRequest {
+  string balance_type_code = 1;
+}
+
+message BalanceTypesResponse {
+  repeated BalanceTypeEntity data = 1;
+  BaseResponse meta = 2;
+}
+
+message BalanceTypeResponse {
+  BalanceTypeEntity data = 1;
+  BaseResponse meta = 2;
+}
+
 
 /*
 ===========================
@@ -377,4 +402,13 @@ service TransactionDetailService {
   rpc Create(TransactionDetailEntity) returns (TransactionDetailResponse);
   rpc Update(TransactionDetailEntity) returns (TransactionDetailResponse);
   rpc Delete(TransactionDetailRequest) returns (TransactionDetailResponse);
+}
+
+// Balance Type service
+service BalanceTypeService {
+  rpc GetAll(Empty) returns (BalanceTypesResponse);
+  rpc Get(BalanceTypeRequest) returns (BalanceTypeResponse);
+  rpc Create(BalanceTypeEntity) returns (BalanceTypeResponse);
+  rpc Update(BalanceTypeEntity) returns (BalanceTypeResponse);
+  rpc Delete(BalanceTypeRequest) returns (BalanceTypeResponse);
 }

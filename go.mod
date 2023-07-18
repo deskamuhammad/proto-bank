@@ -1,4 +1,4 @@
-module gitlab.com/dcindonesia/merchant-dashboard-glacier/proto-bank
+module github.com/philipsjp26/proto-bank
 
 go 1.20
 

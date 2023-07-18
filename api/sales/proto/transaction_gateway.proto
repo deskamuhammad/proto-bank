@@ -12,14 +12,15 @@ import "api/sales/proto/meta.proto";
 ===========================
 */
 message Item {
-  string balance_type = 1;
-  string start_period = 2;
-  string end_period = 3;
-  int32 quantity = 4;
-  int32 price = 5;
-  int32 discount = 6;
-  int32 total_price = 7;
-  string description = 8;
+  string id = 1;
+  string balance_type = 2;
+  string start_period = 3;
+  string end_period = 4;
+  int64 quantity = 5;
+  int64 price = 6;
+  int64 discount = 7;
+  int64 total_price = 8;
+  string description = 9;
 }
 
 message Transaction {
@@ -65,7 +66,7 @@ message TransactionDetail {
   string request_rejected_at = 24;
   string request_reject_reason = 25;
   string paid_at = 26;
-  TransactionDocument payment_proof = 27;
+  string payment_proof = 27;
   string payment_due_date = 28;
   string payment_rejected_at = 29;
   string payment_reject_reason = 30;
@@ -79,21 +80,33 @@ message TransactionDetail {
   string work_type = 38;
   string letter_address = 39;
   string invoice_shipment = 40;
-  repeated TransactionDocument documents = 41;
-  repeated TransactionDocument invoice_documents = 42;
+  string invoice_document = 41;
+  repeated SupportingDocumentResponse supporting_documents = 42;
   repeated Item item_details = 43;
-  int32 total_payment = 44;
+  int64 total_payment = 44;
   string ppn_report = 45;
-  int32 ppn = 46;
+  int64 ppn = 46;
   string signature = 47;
   string created_at = 48;
+  string customer_id = 50;
+  string payment_id = 51;
 }
 
-message TransactionDocument {
-  string id = 1;
-  string document_type = 3;
-  string document_id = 4;
-  string created_at = 5;
+message SupportingDocumentRequest {
+  string document_type = 1;
+  string document_file = 2;
+  string instruction = 3;
+}
+
+message SupportingDocumentResponse {
+  string supporting_document_id = 1;
+  string document_type = 2;
+  string document_file = 3;
+  string instruction = 4;
+  string transaction_id = 5;
+  string file_size = 6;
+  string file_type = 7;
+  string file_name = 8;
 }
 
 
@@ -178,6 +191,15 @@ message CreateRequestInvoiceRequest {
   string integration_type = 11;
   string letter_address = 12;
   repeated Item item_details = 13;
+  string cut_off_date = 14;
+  string work_type = 15;
+  int64 tax = 16;
+  string ppn_report = 17;
+  string payment_due_date = 18;
+  repeated SupportingDocumentRequest supporting_documents = 19;
+  string send_invoice_request_to = 20;
+  string cc = 21;
+  string bcc = 22;
 }
 
 message CreateRequestInvoiceResponse {
@@ -197,8 +219,8 @@ message CreateInvoiceRequest {
   string payment_due_date = 3;
   string payment_term = 4;
   repeated Item item_details = 5;
-  int32 tax = 6;
-  repeated TransactionDocument supporting_docs = 7;
+  int64 tax = 6;
+  repeated SupportingDocumentRequest supporting_documents = 7;
   string send_invoice_request_to = 8;
   string cc = 9;
   string bcc = 10;

@@ -1,7 +1,7 @@
 syntax = "proto3";
 package httplogpb;
 
-option go_package = "/protobuf/httplogpb";
+option go_package = ".";
 
 /*
 =================

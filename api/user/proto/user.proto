@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = ".";
+
+message GetUserRequest {
+  string privy_id = 1;
+}
+
+message GetUserResponse {
+  string privy_id=1;
+  string name=2;
+  repeated string role_codes=3;
+  repeated string access_strings=4;
+  repeated string merchant_codes=5;
+}
+
+service UserService {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+}

@@ -37,6 +37,8 @@ message Transaction {
   string request_reject_reason = 11;
   repeated Item item_details = 12;
   string created_at = 13;
+  string customer_id = 14;
+  string payment_id = 15;
 }
 
 message TransactionDetail {

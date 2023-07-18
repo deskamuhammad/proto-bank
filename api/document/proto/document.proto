@@ -92,6 +92,10 @@ message ListServiceDocumentResponse {
     DocumentMeta meta = 2;
 }
 
+message UploadFileResponse {
+    string message = 1;
+}
+
 /*
 =================
     Request
@@ -133,6 +137,11 @@ message RevokeDocumentRequest {
     string doc_status = 2;
 }
 
+message UploadFileRequest {
+    string filename = 1;
+    bytes content = 2;
+}
+
 /*
 =================
     Service
@@ -147,4 +156,6 @@ service Document {
 
     rpc ListDocument (DocumentParameterRequest) returns (ListServiceDocumentResponse);
     rpc RevokeDocument (RevokeDocumentRequest) returns (GetDocumentResponse);
+
+    rpc UploadFileService(stream UploadFileRequest) returns (UploadFileResponse) {}
 }

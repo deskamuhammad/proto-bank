@@ -38,7 +38,7 @@ message ActivityLogParameterRequest {
 */
 
 message ActivityLogResponse {
-    string id = 1;
+    int64 id = 1;
     string name = 2;
     string privy_id = 3;
     string ip = 4;
@@ -57,11 +57,12 @@ message ActivityLogResponse {
 }
 
 message ActivityLogListResponse {
-    string created_at = 1;
-    string privy_id = 2;
-    string ip = 3;
-    string browser = 4;
-    string activity = 5;
+    int64 id = 1;
+    string created_at = 2;
+    string privy_id = 3;
+    string ip = 4;
+    string browser = 5;
+    string activity = 6;
 }
 
 message ActivityLogsResponse {
